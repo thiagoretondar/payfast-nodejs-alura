@@ -1,0 +1,24 @@
+{
+  "name": "payfast-nodejs-alura",
+  "version": "1.0.0",
+  "description": "Starting studies in Node.js with alura's course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagoretondar/payfast-nodejs-alura.git"
+  },
+  "keywords": [
+    "gateway",
+    "pagamentos",
+    "api"
+  ],
+  "author": "Thiago Retondar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thiagoretondar/payfast-nodejs-alura/issues"
+  },
+  "homepage": "https://github.com/thiagoretondar/payfast-nodejs-alura#readme"
+}
