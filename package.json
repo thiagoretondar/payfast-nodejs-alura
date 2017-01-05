@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/thiagoretondar/payfast-nodejs-alura/issues"
   },
-  "homepage": "https://github.com/thiagoretondar/payfast-nodejs-alura#readme"
+  "homepage": "https://github.com/thiagoretondar/payfast-nodejs-alura#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
