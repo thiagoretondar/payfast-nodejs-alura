@@ -17,11 +17,23 @@ module.exports = function(app) {
 
 		paymentDao.save(payment, function(error, result) {
 
+			req.assert("payment_type", "Payment type is mandatory").notEmpty();
+			req.assert("value", "Value is mandatory and must be decimal").notEmpty().isFloat();
+
+			var validationErrors = req.validationErrors();
+
+			if (validationErrors) {
+				console.log("Validation Errors found: " + validationErrors);
+				res.status(500).send(validationErrors);
+				return;
+			}
+
 			if (error) {
 				console.log('Error on creation of payment: ' + error);
 			} else {
 				console.log('Payment created!');
-				res.json(payment);
+				res.location('/payments/payment/' + result.insertId);
+				res.status(201).json(payment);
 			}
 		});
 	});
