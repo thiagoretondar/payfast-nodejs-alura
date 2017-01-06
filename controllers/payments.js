@@ -5,6 +5,46 @@ module.exports = function(app) {
 		res.send('Ok!');
 	});
 
+	app.put('/payments/payment/:id', function(req, res) {
+		var id = req.params.id;
+
+		var payment = {};
+		payment.id = id;
+		payment.status = 'CONFIRMED';
+
+		var connection = app.persistence.connectionFactory();
+		var paymentDao = new app.persistence.paymentDao(connection);
+
+		paymentDao.update(payment, function(error) {
+			if (error) {
+				res.status(500).send(error);
+				return;
+			}
+
+			res.send(payment);
+		});
+	});
+
+	app.delete('/payments/payment/:id', function() {
+		var id = req.params.id;
+
+		var payment = {};
+		payment.id = id;
+		payment.status = 'CANCELED';
+
+		var connection = app.persistence.connectionFactory();
+		var paymentDao = new app.persistence.paymentDao(connection);
+
+		paymentDao.update(payment, function(error) {
+			if (error) {
+				res.status(500).send(error);
+				return;
+			}
+			console.log('Payment ' + id + ' canceled');
+			res.status(203).send(payment);
+		});
+	});
+
 	app.post('/payments/payment', function(req, res) {
 		var payment = req.body;
 		console.log('Processing request for new payment');
