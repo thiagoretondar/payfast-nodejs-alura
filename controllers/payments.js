@@ -5,4 +5,10 @@ module.exports = function(app) {
 		res.send('Ok!');
 	});
 
+	app.post('/payments/payment', function(req, res) {
+		var payment = req.body;
+		console.log(payment);
+		res.send('Ok!');
+	});
+
 };

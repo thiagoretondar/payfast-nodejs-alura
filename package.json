@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/thiagoretondar/payfast-nodejs-alura#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "consign": "^0.1.2",
     "express": "^4.14.0"
   }
