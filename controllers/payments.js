@@ -72,8 +72,29 @@ module.exports = function(app) {
 				console.log('Error on creation of payment: ' + error);
 			} else {
 				console.log('Payment created!');
-				res.location('/payments/payment/' + result.insertId);
-				res.status(201).json(payment);
+
+				var idInserted = result.insertId;
+				payment.id = idInserted;
+
+				res.location('/payments/payment/' + idInserted);
+
+				var  response = {
+					payment_data: payment,
+					links: [
+						{
+							href: 'http://localhost:3000/payments/payment/' + idInserted,
+							rel: 'confirm',
+							method: 'PUT'
+						},
+						{
+							href: 'http://localhost:3000/payments/payment/' + idInserted,
+							rel: 'cancel',
+							method: 'DELETE'
+						}
+					]
+				}
+
+				res.status(201).json(response);
 			}
 		});
 	});
