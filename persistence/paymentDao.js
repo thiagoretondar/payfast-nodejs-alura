@@ -18,6 +18,6 @@ paymentDao.prototype.update = function(payment, callback) {
 	this._connection.query('UPDATE payments SET status = ? WHERE id = ?', [payment.status, payment.id], callback);
 }
 
-module.exports = function(){
-		return paymentDao;
+module.exports = function() {
+	return paymentDao;
 };
