@@ -46,7 +46,7 @@ module.exports = function(app) {
 	});
 
 	app.post('/payments/payment', function(req, res) {
-		var payment = req.body;
+		var payment = req.body.payment;
 		console.log('Processing request for new payment');
 
 		payment.status = 'created';
@@ -57,8 +57,8 @@ module.exports = function(app) {
 
 		paymentDao.save(payment, function(error, result) {
 
-			req.assert("payment_type", "Payment type is mandatory").notEmpty();
-			req.assert("value", "Value is mandatory and must be decimal").notEmpty().isFloat();
+			req.assert("payment.payment_type", "Payment type is mandatory").notEmpty();
+			req.assert("payment.value", "Value is mandatory and must be decimal").notEmpty().isFloat();
 
 			var validationErrors = req.validationErrors();
 
@@ -75,6 +75,12 @@ module.exports = function(app) {
 
 				var idInserted = result.insertId;
 				payment.id = idInserted;
+
+				if (payment.payment_type == 'cartao') {
+					var credit_card = req.body.credit_card;
+					res.status(201).json(credit_card);
+					return;
+				}
 
 				res.location('/payments/payment/' + idInserted);
 
