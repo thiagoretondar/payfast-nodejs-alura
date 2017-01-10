@@ -78,29 +78,39 @@ module.exports = function(app) {
 
 				if (payment.payment_type == 'cartao') {
 					var credit_card = req.body.credit_card;
-					res.status(201).json(credit_card);
-					return;
-				}
 
-				res.location('/payments/payment/' + idInserted);
+					var creditCardService = new app.services.cardClient();
+					creditCardService.authorize(credit_card,
+						function(exception, request, response, responseReturned) {
+							console.log('Payment with credit card');
+							console.log(responseReturned);
 
-				var  response = {
-					payment_data: payment,
-					links: [
-						{
-							href: 'http://localhost:3000/payments/payment/' + idInserted,
-							rel: 'confirm',
-							method: 'PUT'
-						},
-						{
-							href: 'http://localhost:3000/payments/payment/' + idInserted,
-							rel: 'cancel',
-							method: 'DELETE'
+							res.status(201).json(responseReturned);
+							return;
 						}
-					]
+					);
+				} else {
+					res.location('/payments/payment/' + idInserted);
+
+					var  response = {
+						payment_data: payment,
+						links: [
+							{
+								href: 'http://localhost:3000/payments/payment/' + idInserted,
+								rel: 'confirm',
+								method: 'PUT'
+							},
+							{
+								href: 'http://localhost:3000/payments/payment/' + idInserted,
+								rel: 'cancel',
+								method: 'DELETE'
+							}
+						]
+					}
 				}
 
 				res.status(201).json(response);
+				return;
 			}
 		});
 	});
