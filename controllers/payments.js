@@ -25,7 +25,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.delete('/payments/payment/:id', function() {
+	app.delete('/payments/payment/:id', function(req, res) {
 		var id = req.params.id;
 
 		var payment = {};
@@ -42,6 +42,25 @@ module.exports = function(app) {
 			}
 			console.log('Payment ' + id + ' canceled');
 			res.status(203).send(payment);
+		});
+	});
+
+	app.get('/payments/payment/:id', function(req, res) {
+		var paymentId = req.params.id;
+		console.log("Verifying payment " + paymentId);
+
+		var connection = app.persistence.connectionFactory();
+		var paymentDao = new app.persistence.paymentDao(connection);
+
+		paymentDao.searchById(paymentId, function(error, result) {
+			if (error) {
+				console.log("Error on select: " + error);
+				res.status(500).send(error);
+				return;
+			}
+
+			console.log("Payment found: " + JSON.stringify(result));
+			res.json(result);
 		});
 	});
 

@@ -11,7 +11,7 @@ paymentDao.prototype.list = function(payment) {
 };
 
 paymentDao.prototype.searchById = function(id, callback) {
-	this._connection.query('SELECT * FROM payments WHERE id = ?', id, callback);
+	this._connection.query('SELECT * FROM payments WHERE id = ?', [id], callback);
 };
 
 paymentDao.prototype.update = function(payment, callback) {
